@@ -1,0 +1,14 @@
+apply plugin: 'groovy'
+apply plugin: 'java'
+
+dependencies {
+    implementation 'com.android.tools.build:transform-api:1.5.0'
+    implementation 'com.android.tools.build:gradle:3.4.0'
+    implementation 'org.javassist:javassist:3.20.0-GA'
+    implementation gradleApi()
+    implementation localGroovy()
+}
+repositories {
+    jcenter()
+    google()
+}
