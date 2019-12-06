@@ -1,14 +1,13 @@
-修改java字节码
 
-题目出自鸿神[玩安卓svip交流群](https://t.zsxq.com/QFuFaIu)
+
+题目出自鸿神[玩安卓svip免费交流群](https://t.zsxq.com/QFuFaIu)
 
 [第一周：尝试修改java字节码](https://t.zsxq.com/jybuB6y)
 > 1.选择javassist或者asm尝试修改一个java class，做任意修改即可[达标]。
 > 2.尝试给一个java class方法中的方法添加耗时。
 > 3.尝试在Android项目编译阶段给java class方法添加耗时检测。
 
-### 1.javassist修改字节码
-#### 与javassist的第一次见面
+### 1.javassist修改字极光jar包
 之前在项目开发中为了实现消息推送的各个平台版本sdk（小米，华为，OPPO，vivo，极光）。在写这个多平台推送的sdk过程中，发现小米手机启动时，小米推送和极光推送的服务都同时启动了。导致后台发起的推送收到了两次（后天是全平台推送的）。本来只要手机端只要启动一个推送服务，结果应该只会收到一个推送。当时猜测可能是注册了某个广播接收者然后在某些时候启动了极光服务，现在重新回顾通过Android Studio的`Analyze APK`（build->Analyze APK）时，极光服务是通过`provider`启动的，会有一些sdk会在`provider`中初始化，见[你的Android库是否还在Application中初始化？](https://juejin.im/post/5da6ce99f265da5ba532b6a8)。
 ``` xml
 <provider
@@ -63,7 +62,7 @@ public class JCoreInterface{
 在开始想通过`JD-GUI`来修改代码，然后编译成新的jar包。但是发现太难了，相关的`Context`环境没有，而且极光的jar包是混淆过的，`JD-GUI`反编译的最终效果不一定每个都正确，会有一些文件不识别。  
 事实上我们想要的效果只是修改个别文件，然后覆盖相应的目录即可，这样改动最小。最终通过查询，[javassist](http://www.javassist.org/)(Java Programming Assistant)进入我的视野。  
 `javassist`是一个java字节码编辑工具，可以很简单的修改class，操作方式优点类似于反射接口调用。
-#### 修改极光jar包，控制服务启动
+
 首先准备`JD-GUI`，`idea`，然后下载[javassist](https://github.com/jboss-javassist/javassist/releases)，在`Android SDK`目录下的`platforms/android-28`下找出`android.jar`，然后下载[极光的jar包](http://docs.jiguang.cn/jpush/resources/)，
 我们用`idea`新建一个`java`项目，然后新建`libs`目录，然后加入`javassist.jar`。右键`Add as Library`加入到库中。在src中新建一个`Test`类,
 首先在`JCoreInterface`（在`jpush-android-3.2.0.jar`中）中加入`JPUSH_IS_INIT`静态变量。
@@ -378,7 +377,7 @@ class MethodLogTransform extends Transform {
 }
 ```
 ### 项目地址
-
+[https://github.com/iamyours/ASMTest](https://github.com/iamyours/ASMTest)
 
 
 
