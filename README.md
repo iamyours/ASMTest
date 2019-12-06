@@ -141,14 +141,14 @@ public class JCoreInterface {
 
 ### 2. ASM添加方法耗时检测
 [ASM](https://asm.ow2.io/)是一款字节码操作与分析的开源框架，可以通过二进制形式（内存）修改已有class或者动态生成class。它提供了许多api用于字节码转换构建与分析。较于`javassist`，`ASM`相对复杂，门槛较高。ASM操作基于指令级别，提供了多种修改和分析API，小而快速，强大。  
-官方的入门教程见[asm4-guide.pdf](https://asm.ow2.io/asm4-guide.pdf)   
-[doc文档](https://asm.ow2.io/javadoc/)  
+- 官方的入门教程见[asm4-guide.pdf](https://asm.ow2.io/asm4-guide.pdf)    
+- [doc文档](https://asm.ow2.io/javadoc/)  
 
-由于ASM操作字节码是基于指令的，因此要对`jvm`要有一定了解，推荐大家阅读[《深入理解Java虚拟机》](https://book.douban.com/subject/24722612/)和[《自己动手写Java虚拟机》](https://book.douban.com/subject/26802084/)，而`《自己动手写Java虚拟机》`实践性强，大家可以通过go语言编程的形式学习Java虚拟机。  
+由于ASM操作字节码是基于指令的，因此要对`jvm`要有一定了解，推荐大家阅读[《深入理解Java虚拟机》](https://book.douban.com/subject/24722612/)和[《自己动手写Java虚拟机》](https://book.douban.com/subject/26802084/)，而`《自己动手写Java虚拟机》`实践性强，大家可以通过go语言编程的形式学习Java虚拟机。<br/> 
 `ASM`api主要有以下关键类：   
-[ClassReader](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassReader.html): 用于解析class文件，通过`accept`接收`ClassVisitor`对象访问具体的字段，方法等.  
-[ClassVisitor](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassVisitor.html)：class访问者.  
-[ClassWriter](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassWriter.html): 继承自`ClassVisitor`，用于修改或生成class，通常配合`ClassReader`和`ClassVisitor`修改class.  
+[ClassReader](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassReader.html): 用于解析class文件，通过`accept`接收`ClassVisitor`对象访问具体的字段，方法等.  <br/>
+[ClassVisitor](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassVisitor.html)：class访问者.  <br/>
+[ClassWriter](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassWriter.html): 继承自`ClassVisitor`，用于修改或生成class，通常配合`ClassReader`和`ClassVisitor`修改class.  <br/>
 这里在`asm4-guide`第63页通过`LocalVariablesSorter`为方法添加耗时检测
 ``` java
 public class MethodLogAdapter extends ClassVisitor {
@@ -318,8 +318,8 @@ public class TestActivity {//修改后
 ```
 
 ### 3. 使用Transform在Android编译阶段添加方法耗时
-之前通过[Transform](http://tools.android.com/tech-docs/new-build-system/transform-api)实现了[简易版路由框架](https://juejin.im/post/5cf35bde6fb9a07ed440e99a)，不过是通过`javassist`实现的，虽然实现更简单，但是不如`ASM`操作快速，所以本次通过`ASM`实现。
-同样的创建一个名称为`buildSrc`（注意大小写）的`Android Library`，这样我们的插件直接可以使用了，具体如何实现插件可以参照[基于Transform实现更高效的组件化路由框架](https://juejin.im/post/5cf35bde6fb9a07ed440e99a)的配置方式。
+之前通过[Transform](http://tools.android.com/tech-docs/new-build-system/transform-api)实现了[简易版路由框架](https://juejin.im/post/5cf35bde6fb9a07ed440e99a)，不过是通过`javassist`实现的，虽然实现更简单，但是不如`ASM`操作快速，所以本次通过`ASM`实现。<br/>
+同样的创建一个名称为`buildSrc`（注意大小写）的`Android Library`，这样我们的插件直接可以使用了，具体如何实现插件可以参照[基于Transform实现更高效的组件化路由框架](https://juejin.im/post/5cf35bde6fb9a07ed440e99a)的配置方式。<br/>
 添加`MethodLogTransform`处理方法耗时
 ``` groovy
 class MethodLogTransform extends Transform {
