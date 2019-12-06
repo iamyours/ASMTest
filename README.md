@@ -140,14 +140,15 @@ public class JCoreInterface {
 稍微与修改时候的代码有所不同，但是整体的逻辑是正确的。然后同样通过压缩软件覆盖修改，我们就实现了可控制启动的极光推送jar包。
 
 ### 2. ASM添加方法耗时检测
-[ASM](https://asm.ow2.io/)是一款字节码操作与分析的开源框架，可以通过二进制形式（内存）修改已有class或者动态生成class。它提供了许多api用于字节码转换构建与分析。较于`javassist`，`ASM`相对复杂，门槛较高。ASM操作基于指令级别，提供了多种修改和分析API，小而快速，强大。
-官方的入门教程见[asm4-guide.pdf](https://asm.ow2.io/asm4-guide.pdf)  
-[doc文档](https://asm.ow2.io/javadoc/)
-由于ASM操作字节码是基于指令的，因此要对`jvm`要有一定了解，推荐大家阅读[《深入理解Java虚拟机》](https://book.douban.com/subject/24722612/)和[《自己动手写Java虚拟机》](https://book.douban.com/subject/26802084/)，而`《自己动手写Java虚拟机》`实践性强，大家可以通过go语言编程的形式学习Java虚拟机。
-`ASM`api主要有以下关键类：
-[ClassReader](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassReader.html): 用于解析class文件，通过`accept`接收`ClassVisitor`对象访问具体的字段，方法等
-[ClassVisitor](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassVisitor.html)：class访问者
-[ClassWriter](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassWriter.html): 继承自`ClassVisitor`，用于修改或生成class，通常配合`ClassReader`和`ClassVisitor`修改class
+[ASM](https://asm.ow2.io/)是一款字节码操作与分析的开源框架，可以通过二进制形式（内存）修改已有class或者动态生成class。它提供了许多api用于字节码转换构建与分析。较于`javassist`，`ASM`相对复杂，门槛较高。ASM操作基于指令级别，提供了多种修改和分析API，小而快速，强大。  
+官方的入门教程见[asm4-guide.pdf](https://asm.ow2.io/asm4-guide.pdf)   
+[doc文档](https://asm.ow2.io/javadoc/)  
+
+由于ASM操作字节码是基于指令的，因此要对`jvm`要有一定了解，推荐大家阅读[《深入理解Java虚拟机》](https://book.douban.com/subject/24722612/)和[《自己动手写Java虚拟机》](https://book.douban.com/subject/26802084/)，而`《自己动手写Java虚拟机》`实践性强，大家可以通过go语言编程的形式学习Java虚拟机。  
+`ASM`api主要有以下关键类：   
+[ClassReader](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassReader.html): 用于解析class文件，通过`accept`接收`ClassVisitor`对象访问具体的字段，方法等.  
+[ClassVisitor](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassVisitor.html)：class访问者.  
+[ClassWriter](https://asm.ow2.io/javadoc/org/objectweb/asm/ClassWriter.html): 继承自`ClassVisitor`，用于修改或生成class，通常配合`ClassReader`和`ClassVisitor`修改class.  
 这里在`asm4-guide`第63页通过`LocalVariablesSorter`为方法添加耗时检测
 ``` java
 public class MethodLogAdapter extends ClassVisitor {
